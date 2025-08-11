@@ -7,12 +7,14 @@ interface Props {
 }
 
 const SignupScreen: React.FC<Props> = ({ onSignupSuccess, onBackToLogin }) => {
+  const [fullName, setFullName] = useState("");
+  const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSignup = () => {
-    if (!email || !password || !confirmPassword) {
+    if (!fullName || !address || !email || !password || !confirmPassword) {
       Alert.alert("Error", "Please fill in all fields.");
       return;
     }
@@ -20,13 +22,27 @@ const SignupScreen: React.FC<Props> = ({ onSignupSuccess, onBackToLogin }) => {
       Alert.alert("Error", "Passwords do not match!");
       return;
     }
-    Alert.alert("Success", `Signed up as ${email}`, [{ text: "OK", onPress: onSignupSuccess }]);
+    Alert.alert("Success", `Signed up as ${fullName} (${email})`, [
+      { text: "OK", onPress: onSignupSuccess },
+    ]);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
 
+      <TextInput
+        placeholder="Full Name"
+        style={styles.input}
+        value={fullName}
+        onChangeText={setFullName}
+      />
+      <TextInput
+        placeholder="Address"
+        style={styles.input}
+        value={address}
+        onChangeText={setAddress}
+      />
       <TextInput
         placeholder="Email"
         style={styles.input}
@@ -50,12 +66,12 @@ const SignupScreen: React.FC<Props> = ({ onSignupSuccess, onBackToLogin }) => {
         secureTextEntry
       />
 
-      {/* Custom smaller Sign Up button */}
+      {/* Sign Up button */}
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.signupButtonText}>Sign Up</Text>
       </TouchableOpacity>
 
-      {/* Custom smaller Back to Login button */}
+      {/* Back to Login button */}
       <TouchableOpacity style={[styles.backButton, { marginTop: 10 }]} onPress={onBackToLogin}>
         <Text style={styles.backButtonText}>Back to Login</Text>
       </TouchableOpacity>
@@ -74,34 +90,29 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingHorizontal: 12,
   },
-
-  // Smaller Sign Up button styles
   signupButton: {
     backgroundColor: "#ed7214ff",
-    height: 36,              // smaller height
+    height: 36,
     borderRadius: 6,
     justifyContent: "center",
     alignItems: "center",
     width: 300,
-     alignSelf: "center", 
+    alignSelf: "center",
   },
   signupButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
-     
   },
-
-  // Smaller Back button styles
   backButton: {
-    height: 35,            // smaller height
+    height: 35,
     borderRadius: 6,
     borderWidth: 1,
     backgroundColor: "#0a8ce9ff",
     justifyContent: "center",
     alignItems: "center",
     width: 300,
-    alignSelf: "center", 
+    alignSelf: "center",
     borderColor: "#0a8ce9ff",
   },
   backButtonText: {
